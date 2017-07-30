@@ -6,19 +6,16 @@ module Classifier
 
     attr_reader :data, :words, :priori
 
-    def initialize(cat1, cat2)
-      @data = {
-        cat1.to_sym => [],
-        cat2.to_sym => [],
-      }
-      @priori = {
-        cat1.to_sym => 0,
-        cat2.to_sym => 0,
-      }
-      @words = {
-        cat1.to_sym => Hash.new(0),
-        cat2.to_sym => Hash.new(0),
-      }
+    def initialize(*categories)
+      raise ArgumentError, "need 2 or more categories" if categories.size < 2
+      @data = {}
+      @priori = {}
+      @words = {}
+      categories.each do |category|
+        @data[category.to_sym] = []
+        @priori[category.to_sym] = 0
+        @words[category.to_sym] = Hash.new(0)
+      end
     end
 
     def train(category, text)
