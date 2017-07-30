@@ -33,9 +33,6 @@ module Classifier
       categories.each { |cat| probabilities[cat] = @priori.fetch(cat) }
       text.to_s.downcase.strip.split(/\s+/).each do |word|
         categories.each do |category|
-          #if category == :sports
-          #  puts "P(#{word}|sports) (#{count_word_in_category(category, word)} + 1) / (#{total_words_in_category(category)} + #{total_uniq_words})"
-          #end
           word_probability = (count_word_in_category(category, word) + 1) / (total_words_in_category(category) + total_uniq_words)
           probabilities[category] *= word_probability
         end
