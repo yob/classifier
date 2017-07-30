@@ -1,27 +1,27 @@
 module Classifier
   class Result
-    attr_reader :category
+    attr_reader :category, :scores
 
     def initialize(probabilities)
-      @probabilities = probabilities
+      @scores = probabilities
       @category = calc_winning_category
     end
 
     def inspect
-      "<Classifier::Result:#{object_id} category: #{category} scores: {#{scores}}>"
+      "<Classifier::Result:#{object_id} category: #{category} scores: {#{rounded_scores}}>"
     end
 
-    def scores
-      @probabilities.inject([]) do |accum, row|
+    private
+
+    def rounded_scores
+      @scores.inject([]) do |accum, row|
         category, score = *row
         accum << "#{category}: #{score.round(10).to_s('F')}"
       end.join(", ")
     end
 
-    private
-
     def calc_winning_category
-      @probabilities.to_a.sort_by { |cat, score|
+      @scores.to_a.sort_by { |cat, score|
         score
       }.last.first
     end

@@ -19,6 +19,13 @@ RSpec.describe Classifier::NaiveBayes do
       it "classifies a string as sports" do
         expect(result.category).to eq(:sports) 
       end
+
+      it "calculates correct scores" do
+        expect(result.scores).to be_a(Hash)
+        expect(result.scores.size).to eq(2)
+        expect(result.scores[:sports].round(10)).to eq(BigDecimal.new("0.000027648"))
+        expect(result.scores[:not_sports].round(10)).to eq(BigDecimal.new("0.0000057175"))
+      end
     end
   end
 end
