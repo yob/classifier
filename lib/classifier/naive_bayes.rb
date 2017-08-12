@@ -12,9 +12,9 @@ module Classifier
       @priori = {}
       @features = {}
       categories.each do |category|
-        @data[category.to_sym] = []
-        @priori[category.to_sym] = 0
-        @features[category.to_sym] = Hash.new(0)
+        @data[category] = []
+        @priori[category] = 0
+        @features[category] = Hash.new(0)
       end
     end
 

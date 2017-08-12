@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby 
+
+require 'classifier'
+
+require 'csv'
+
+input_file = ARGV.first
+
+unless File.file?(input_file)
+  $stderr.puts "#{input_file} not found"
+  exit(1)
+end
+
+def extract_categories(input_file)
+  CSV.read(input_file).map(&:first).uniq.sort
+end
+
+classifier = Classifier::NaiveBayes.new(*extract_categories(input_file))
+test_runner = Classifier::TestDataSet.new(input_file, classifier)
+test_runner.test(CSV.read(input_file))
