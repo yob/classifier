@@ -34,3 +34,14 @@ To run multiple files through the test harness:
 There are a number of specs that demonstrate intended behaviour. You can run them via rspec:
 
     bundle exec rspec --format doc
+
+## TODO
+
+* Adjust Classifier::NaiveBayes to allow a store to be passed in
+* Build a demonstration postgres store
+* Improve consistency fo method names required by store contract. count/total, etc
+* expand README with more examples
+  * text classification: tokenisation, stemming, stop words, etc
+  * feature selection
+  * writing a custom store
+* consider adding a way for documents to be removed from a store
