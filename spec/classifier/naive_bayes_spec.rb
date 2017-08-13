@@ -61,10 +61,6 @@ RSpec.describe Classifier::NaiveBayes do
     context "with a sport result input" do
       let(:result) { classifier.classify("Pharmaceuticals") }
 
-      before do
-        puts result.inspect
-      end
-
       it "classifies a string as medical" do
         expect(result.category).to eq(:medical)
       end
