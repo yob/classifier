@@ -46,4 +46,20 @@ RSpec.describe Classifier::NaiveBayes do
     end
   end
 
+  describe "#train" do
+    context "with a pre-defined store" do
+      context "with a valid category" do
+        it "passes the training data to the store"
+      end
+      context "with an invalid category" do
+        it "raises an exception"
+      end
+    end
+  end
+
+  describe "#classify" do
+    context "with a pre-defined store" do
+      it "returns a Classifier::Result instance with correct values"
+    end
+  end
 end
