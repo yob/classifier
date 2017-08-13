@@ -1,52 +1,49 @@
 require 'bigdecimal'
 require 'classifier/result'
+require 'set'
 
 module Classifier
   class NaiveBayesMemoryStore
+    attr_reader :categories, :total_documents
+
     def initialize(categories)
-      @data = {}
-      @features = {}
+      @categories = categories
+      @uniq_features = Set.new
+      @category_features = {}
+      @documents_in_category = Hash.new(0)
+      @total_documents = BigDecimal.new(0)
       categories.each do |category|
-        @data[category] = []
-        @features[category] = Hash.new(0)
+        @category_features[category] = Hash.new(0)
       end
     end
 
     def add_document(category, features)
-      @data[category] << features
+      @total_documents += 1
+      @documents_in_category[category] += 1
       features.each do |feature|
-        @features[category][feature] += 1
+        @category_features[category][feature] += 1
+        @uniq_features << feature
       end
-    end
-
-    def categories
-      @data.keys
     end
 
     def count_feature_in_category(category, feature)
       BigDecimal.new(
-        @features.fetch(category).fetch(feature, 0)
+        @category_features.fetch(category).fetch(feature, 0)
       )
     end
 
     def total_features_in_category(category)
-      @features.fetch(category).values.inject(BigDecimal.new(0)) { |accum, count| accum += count }
+      @category_features.fetch(category).values.inject(BigDecimal.new(0)) { |accum, count|
+        accum += count
+      }
     end
     
     def total_uniq_features
-      BigDecimal.new(
-        @features.values.map(&:keys).flatten.uniq.size
-      )
+      BigDecimal.new(@uniq_features.size)
     end
 
     def documents_in_category(category)
-      BigDecimal.new(@data.fetch(category).size)
-    end
-
-    def total_documents
-      BigDecimal.new(
-        @data.map { |_,v| v.size }.inject(0) { |accum, count| accum += count }
-      )
+      BigDecimal.new(@documents_in_category.fetch(category))
     end
 
   end
