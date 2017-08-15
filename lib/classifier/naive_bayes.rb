@@ -5,9 +5,9 @@ require 'classifier/naive_bayes_memory_store'
 module Classifier
   class NaiveBayes
 
-    def initialize(*categories)
+    def initialize(store: nil, categories:)
       raise ArgumentError, "need 2 or more categories" if categories.size < 2
-      @store = NaiveBayesMemoryStore.new(categories)
+      @store = store || NaiveBayesMemoryStore.new(categories)
     end
 
     def train(category, *features)

@@ -1,8 +1,11 @@
 #!/usr/bin/env ruby 
 
 require 'classifier'
+require 'classifier/naive_bayes_sequel_store'
 
 require 'csv'
+require 'sequel'
+require 'logger'
 
 input_file = ARGV.first
 
@@ -15,6 +18,9 @@ def extract_categories(input_file)
   CSV.read(input_file).map(&:first).uniq.sort
 end
 
-classifier = Classifier::NaiveBayes.new(*extract_categories(input_file))
+db = Sequel.connect("postgres://%2Fvar%2Frun%2Fpostgresql/naive-bayes-experiment")
+#db.logger = Logger.new($stdout)
+store = Classifier::NaiveBayesSequelStore.new(db, :nb, extract_categories(input_file))
+classifier = Classifier::NaiveBayes.new(store: store, categories: extract_categories(input_file))
 test_runner = Classifier::TestDataSet.new(input_file, classifier)
 test_runner.test(CSV.read(input_file))

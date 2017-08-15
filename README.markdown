@@ -11,10 +11,10 @@ Basic naive bayes classification:
 
     require 'classifier'
 
-    classifier = Classifier::NaiveBayes.new("spam", "ham")
+    classifier = Classifier::NaiveBayes.new(categories: ["spam", "ham"])
     classifier.train("spam", "cheap", "viagra")
     classifier.train("ham", "cheap", "fruit")
-    puts classifier.classify("fruit"),inspect
+    puts classifier.classify("fruit").inspect
 
 To test the performance of a classifier, first build a CSV data file like this:
 

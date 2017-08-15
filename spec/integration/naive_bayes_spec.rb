@@ -4,7 +4,7 @@ require 'pp'
 RSpec.describe Classifier::NaiveBayes do
 
   context "with monkey learn data" do
-    let(:classifier) { Classifier::NaiveBayes.new(:sports, :not_sports) }
+    let(:classifier) { Classifier::NaiveBayes.new(categories: [:sports, :not_sports]) }
 
     before do
       classifier.train(:sports, %w{A great game})
@@ -31,7 +31,7 @@ RSpec.describe Classifier::NaiveBayes do
   end
 
   context "with 4 Field Of Research codes and topic data from theconversation.com" do
-    let(:classifier) { Classifier::NaiveBayes.new(:maths, :medical, :education, :law) }
+    let(:classifier) { Classifier::NaiveBayes.new(categories: [:maths, :medical, :education, :law]) }
 
     before do
       # https://theconversation.com/teaching-maths-what-does-the-evidence-say-actually-works-64976
