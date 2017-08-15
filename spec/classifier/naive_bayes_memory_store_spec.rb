@@ -18,22 +18,22 @@ RSpec.describe Classifier::NaiveBayesMemoryStore do
     end
   end
 
-  describe "#total_documents" do
+  describe "#count_documents" do
     it "returns a BigDecimal" do
-      expect(monkey_store.total_documents).to be_a(BigDecimal)
+      expect(monkey_store.count_documents).to be_a(BigDecimal)
     end
     it "returns a count of all documents" do
-      expect(monkey_store.total_documents).to eq(5)
+      expect(monkey_store.count_documents).to eq(5)
     end
   end
 
-  describe "#documents_in_category" do
+  describe "#count_documents_in_category" do
     it "returns a BigDecimal" do
-      expect(monkey_store.documents_in_category(:sports)).to be_a(BigDecimal)
+      expect(monkey_store.count_documents_in_category(:sports)).to be_a(BigDecimal)
     end
     it "returns a count of documents in category" do
-      expect(monkey_store.documents_in_category(:sports)).to eq(3)
-      expect(monkey_store.documents_in_category(:not_sports)).to eq(2)
+      expect(monkey_store.count_documents_in_category(:sports)).to eq(3)
+      expect(monkey_store.count_documents_in_category(:not_sports)).to eq(2)
     end
   end
 
@@ -47,22 +47,22 @@ RSpec.describe Classifier::NaiveBayesMemoryStore do
     end
   end
 
-  describe "#total_features_in_category" do
+  describe "#count_features_in_category" do
     it "returns a BigDecimal" do
-      expect(monkey_store.total_features_in_category(:sports)).to be_a(BigDecimal)
+      expect(monkey_store.count_features_in_category(:sports)).to be_a(BigDecimal)
     end
     it "returns the number of features for all documents in a category" do
-      expect(monkey_store.total_features_in_category(:sports)).to eq(11)
-      expect(monkey_store.total_features_in_category(:not_sports)).to eq(9)
+      expect(monkey_store.count_features_in_category(:sports)).to eq(11)
+      expect(monkey_store.count_features_in_category(:not_sports)).to eq(9)
     end
   end
 
-  describe "#total_uniq_features" do
+  describe "#count_uniq_features" do
     it "returns a BigDecimal" do
-      expect(monkey_store.total_uniq_features).to be_a(BigDecimal)
+      expect(monkey_store.count_uniq_features).to be_a(BigDecimal)
     end
     it "returns the number of uniq features for all documents in all categories" do
-      expect(monkey_store.total_uniq_features).to eq(15)
+      expect(monkey_store.count_uniq_features).to eq(15)
     end
   end
 end

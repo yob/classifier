@@ -24,7 +24,7 @@ module Classifier
           feature_probability = (
             @store.count_feature_in_category(category, feature) + 1
           ) / (
-            @store.total_features_in_category(category) + @store.total_uniq_features
+            @store.count_features_in_category(category) + @store.count_uniq_features
           )
 
           probabilities[category] *= feature_probability
@@ -44,7 +44,7 @@ module Classifier
     end
 
     def calc_priori(category)
-      @store.documents_in_category(category) / @store.total_documents
+      @store.count_documents_in_category(category) / @store.count_documents
     end
 
   end
