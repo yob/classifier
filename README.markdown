@@ -44,3 +44,5 @@ There are a number of specs that demonstrate intended behaviour. You can run the
   * feature selection
   * writing a custom store
 * consider adding a way for documents to be removed from a store
+* should we accept training data with no features?
+* should we attempt to classify with no features?
