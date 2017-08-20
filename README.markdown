@@ -47,3 +47,4 @@ There are a number of specs that demonstrate intended behaviour. You can run the
 * should we accept training data with no features?
 * should we attempt to classify with no features?
 * move caching to a class that's external to stores
+* add a threshold so classification my a small margin can be flagged or ignored
