@@ -48,3 +48,5 @@ There are a number of specs that demonstrate intended behaviour. You can run the
 * should we attempt to classify with no features?
 * move caching to a class that's external to stores
 * add a threshold so classification my a small margin can be flagged or ignored
+* improve db specs
+  * use spec metadata to indicate the tests that need a DB and ensure the DB is configured automatically
