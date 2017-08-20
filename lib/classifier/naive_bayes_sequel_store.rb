@@ -24,7 +24,7 @@ module Classifier
     def add_document(category, features)
       doc_id = SecureRandom.uuid
       features.each do |feature|
-        @db[@table_name].insert(doc_id: doc_id, category: category, feature: feature)
+        @db[@table_name].insert(doc_id: doc_id, category: category.to_s, feature: feature.to_s)
       end
       reset_cache
     end
@@ -42,13 +42,13 @@ module Classifier
 
     def count_feature_in_category(category, feature)
       @count_feature_in_category_cache["#{category}-#{feature}"] ||= BigDecimal.new(
-        @db[@table_name].where(category: category, feature: feature).count
+        @db[@table_name].where(category: category.to_s, feature: feature.to_s).count
       )
     end
 
     def count_features_in_category(category)
       @count_features_in_category_cache[category] ||= BigDecimal.new(
-        @db[@table_name].where(category: category).count("distinct feature")
+        @db[@table_name].where(category: category.to_s).count("distinct feature")
       )
     end
     
@@ -60,7 +60,7 @@ module Classifier
 
     def count_documents_in_category(category)
       @count_documents_in_category_cache[category] ||= BigDecimal.new(
-        @db[@table_name].where(category: category).count("distinct doc_id")
+        @db[@table_name].where(category: category.to_s).count("distinct doc_id")
       )
     end
   end
