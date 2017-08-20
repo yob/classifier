@@ -21,9 +21,9 @@ module Classifier
 
     # TODO can we load this from the DB?
     def categories
-      @categories 
+      @categories
     end
-    
+
     def count_documents
       BigDecimal.new(
         @db[@table_name].count(Sequel.lit("distinct doc_id"))
@@ -41,7 +41,7 @@ module Classifier
         @db[@table_name].where(category: category.to_s).count
       )
     end
-    
+
     def count_uniq_features
       BigDecimal.new(
         @db[@table_name].count(Sequel.lit("distinct feature"))
