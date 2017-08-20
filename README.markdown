@@ -47,5 +47,3 @@ There are a number of specs that demonstrate intended behaviour. You can run the
 * should we accept training data with no features?
 * should we attempt to classify with no features?
 * add a threshold so classification my a small margin can be flagged or ignored
-* improve db specs
-  * use spec metadata to indicate the tests that need a DB and ensure the DB is configured automatically
