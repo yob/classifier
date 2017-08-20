@@ -2,7 +2,7 @@ require 'classifier/naive_bayes_memory_store'
 
 RSpec.describe Classifier::NaiveBayesMemoryStore do
 
-  let(:monkey_store) { Classifier::NaiveBayesMemoryStore.new([:sports, :not_sports]) }
+  let(:monkey_store) { Classifier::NaiveBayesMemoryStore.new }
 
   before do
     monkey_store.add_document(:sports, %w{A great game})
@@ -10,12 +10,6 @@ RSpec.describe Classifier::NaiveBayesMemoryStore do
     monkey_store.add_document(:sports, %w{Very clean match})
     monkey_store.add_document(:sports, %w{A clean but forgettable game})
     monkey_store.add_document(:not_sports, %w{It was a close election})
-  end
-
-  describe "#categories" do
-    it "returns an array of categories" do
-      expect(monkey_store.categories).to eq([:sports, :not_sports])
-    end
   end
 
   describe "#count_documents" do

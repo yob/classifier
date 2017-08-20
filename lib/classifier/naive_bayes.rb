@@ -1,30 +1,33 @@
 require 'bigdecimal'
 require 'classifier/result'
 require 'classifier/naive_bayes_memory_store'
+require 'classifier/store_cache'
 
 module Classifier
   class NaiveBayes
 
-    def initialize(*categories)
+    def initialize(store: nil, categories:)
       raise ArgumentError, "need 2 or more categories" if categories.size < 2
-      @store = NaiveBayesMemoryStore.new(categories)
+      @categories = categories
+      @store = store || NaiveBayesMemoryStore.new
+      @caching_store = StoreCache.new(@store)
     end
 
     def train(category, *features)
-      raise ArgumentError, "invalid category" unless @store.categories.include?(category)
+      raise ArgumentError, "invalid category" unless @categories.include?(category)
 
-      @store.add_document(category, filter(features))
+      @caching_store.add_document(category, filter(features))
     end
 
     def classify(*candidate_features)
       probabilities = {}
-      @store.categories.each { |cat| probabilities[cat] = calc_priori(cat) }
+      @categories.each { |cat| probabilities[cat] = calc_priori(cat) }
       filter(candidate_features).each do |feature|
-        @store.categories.each do |category|
+        @categories.each do |category|
           feature_probability = (
-            @store.count_feature_in_category(category, feature) + 1
+            @caching_store.count_feature_in_category(category, feature) + 1
           ) / (
-            @store.count_features_in_category(category) + @store.count_uniq_features
+            @caching_store.count_features_in_category(category) + @caching_store.count_uniq_features
           )
 
           probabilities[category] *= feature_probability
@@ -44,7 +47,7 @@ module Classifier
     end
 
     def calc_priori(category)
-      @store.count_documents_in_category(category) / @store.count_documents
+      @caching_store.count_documents_in_category(category) / @caching_store.count_documents
     end
 
   end

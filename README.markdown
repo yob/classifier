@@ -11,10 +11,10 @@ Basic naive bayes classification:
 
     require 'classifier'
 
-    classifier = Classifier::NaiveBayes.new("spam", "ham")
+    classifier = Classifier::NaiveBayes.new(categories: ["spam", "ham"])
     classifier.train("spam", "cheap", "viagra")
     classifier.train("ham", "cheap", "fruit")
-    puts classifier.classify("fruit"),inspect
+    puts classifier.classify("fruit").inspect
 
 To test the performance of a classifier, first build a CSV data file like this:
 
@@ -46,5 +46,4 @@ There are a number of specs that demonstrate intended behaviour. You can run the
 * consider adding a way for documents to be removed from a store
 * should we accept training data with no features?
 * should we attempt to classify with no features?
-* move caching to a class that's external to stores
 * add a threshold so classification my a small margin can be flagged or ignored
