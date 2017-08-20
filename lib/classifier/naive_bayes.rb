@@ -8,21 +8,22 @@ module Classifier
 
     def initialize(store: nil, categories:)
       raise ArgumentError, "need 2 or more categories" if categories.size < 2
-      @store = store || NaiveBayesMemoryStore.new(categories)
+      @categories = categories
+      @store = store || NaiveBayesMemoryStore.new
       @caching_store = StoreCache.new(@store)
     end
 
     def train(category, *features)
-      raise ArgumentError, "invalid category" unless @caching_store.categories.include?(category)
+      raise ArgumentError, "invalid category" unless @categories.include?(category)
 
       @caching_store.add_document(category, filter(features))
     end
 
     def classify(*candidate_features)
       probabilities = {}
-      @caching_store.categories.each { |cat| probabilities[cat] = calc_priori(cat) }
+      @categories.each { |cat| probabilities[cat] = calc_priori(cat) }
       filter(candidate_features).each do |feature|
-        @caching_store.categories.each do |category|
+        @categories.each do |category|
           feature_probability = (
             @caching_store.count_feature_in_category(category, feature) + 1
           ) / (

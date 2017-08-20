@@ -8,7 +8,7 @@ RSpec.describe "Classifier::NaiveBayes with a sequel store", db: true do
   context "with monkey learn data" do
     let(:classifier) {
       db = Sequel.connect(ENV["DATABASE_URL"])
-      store = Classifier::NaiveBayesSequelStore.new(db, :nb, [:sports, :not_sports])
+      store = Classifier::NaiveBayesSequelStore.new(db, :nb)
       classifier = Classifier::NaiveBayes.new(store: store, categories: [:sports, :not_sports])
     }
 

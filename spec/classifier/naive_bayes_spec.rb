@@ -30,7 +30,7 @@ RSpec.describe Classifier::NaiveBayes do
       end
       it "creates a new memory store" do
         Classifier::NaiveBayes.new(categories: [:one, :two])
-        expect(Classifier::NaiveBayesMemoryStore).to have_received(:new).once.with([:one, :two])
+        expect(Classifier::NaiveBayesMemoryStore).to have_received(:new).once
       end
     end
     context "when passed 4 categories" do
@@ -41,7 +41,7 @@ RSpec.describe Classifier::NaiveBayes do
       end
       it "creates a new memory store" do
         Classifier::NaiveBayes.new(categories: [:one, :two, :three, :four])
-        expect(Classifier::NaiveBayesMemoryStore).to have_received(:new).once.with([:one, :two, :three, :four])
+        expect(Classifier::NaiveBayesMemoryStore).to have_received(:new).once
       end
     end
   end

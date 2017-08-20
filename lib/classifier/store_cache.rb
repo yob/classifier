@@ -14,10 +14,6 @@ module Classifier
       reset_cache
     end
 
-    def categories
-      @store.categories
-    end
-
     def count_documents
       @count_documents_cache ||= @store.count_documents
     end
