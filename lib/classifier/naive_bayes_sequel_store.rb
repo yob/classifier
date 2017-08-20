@@ -8,7 +8,6 @@ module Classifier
     def initialize(db, table_name)
       @db = db
       @table_name = table_name
-      @db[@table_name].delete # TODO remove
     end
 
     def add_document(category, features)
