@@ -1,7 +1,7 @@
 require 'classifier/naive_bayes'
 require 'pp'
 
-RSpec.describe Classifier::NaiveBayes do
+RSpec.describe "Classifier::NaiveBayes with a memory store" do
 
   context "with monkey learn data" do
     let(:classifier) { Classifier::NaiveBayes.new(categories: [:sports, :not_sports]) }

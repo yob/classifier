@@ -36,7 +36,7 @@ module Classifier
     
     def count_documents
       @count_documents_cache ||= BigDecimal.new(
-        @db[@table_name].count("distinct doc_id")
+        @db[@table_name].count(Sequel.lit("distinct doc_id"))
       )
     end
 
@@ -48,19 +48,19 @@ module Classifier
 
     def count_features_in_category(category)
       @count_features_in_category_cache[category] ||= BigDecimal.new(
-        @db[@table_name].where(category: category.to_s).count("distinct feature")
+        @db[@table_name].where(category: category.to_s).count
       )
     end
     
     def count_uniq_features
       @count_uniq_features_cache ||= BigDecimal.new(
-        @db[@table_name].count("distinct feature")
+        @db[@table_name].count(Sequel.lit("distinct feature"))
       )
     end
 
     def count_documents_in_category(category)
       @count_documents_in_category_cache[category] ||= BigDecimal.new(
-        @db[@table_name].where(category: category.to_s).count("distinct doc_id")
+        @db[@table_name].where(category: category.to_s).count(Sequel.lit("distinct doc_id"))
       )
     end
   end
