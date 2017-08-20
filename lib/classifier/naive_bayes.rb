@@ -1,6 +1,7 @@
 require 'bigdecimal'
 require 'classifier/result'
 require 'classifier/naive_bayes_memory_store'
+require 'classifier/store_cache'
 
 module Classifier
   class NaiveBayes
