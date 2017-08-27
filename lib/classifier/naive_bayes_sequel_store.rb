@@ -10,6 +10,7 @@ module Classifier
     end
 
     def add_document(doc_id, category, features)
+      @db[@table_name].where(doc_id: doc_id).delete
       features.each do |feature|
         @db[@table_name].insert(doc_id: doc_id, category: category.to_s, feature: feature.to_s)
       end
