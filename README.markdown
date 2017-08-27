@@ -37,7 +37,6 @@ There are a number of specs that demonstrate intended behaviour. You can run the
 
 ## TODO
 
-* allow a doc_id to be included with training data, and re-training with the same doc_id will update data
 * add a threshold so classification my a small margin can be flagged or ignored
 * expand README with more examples
   * text classification: tokenisation, stemming, stop words, etc
