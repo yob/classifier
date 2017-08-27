@@ -13,11 +13,11 @@ RSpec.describe "Classifier::NaiveBayes with a sequel store", db: true do
     }
 
     before do
-      classifier.train(:sports, %w{A great game})
-      classifier.train(:not_sports, %w{The election was over})
-      classifier.train(:sports, %w{Very clean match})
-      classifier.train(:sports, %w{A clean but forgettable game})
-      classifier.train(:not_sports, %w{It was a close election})
+      classifier.train(category: :sports, features: %w{A great game})
+      classifier.train(category: :not_sports, features: %w{The election was over})
+      classifier.train(category: :sports, features: %w{Very clean match})
+      classifier.train(category: :sports, features: %w{A clean but forgettable game})
+      classifier.train(category: :not_sports, features: %w{It was a close election})
     end
 
     context "with a sport result input" do

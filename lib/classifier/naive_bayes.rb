@@ -14,10 +14,10 @@ module Classifier
       @caching_store = StoreCache.new(@store)
     end
 
-    def train(category, *features)
+    def train(doc_id: nil, category:, features:)
       raise ArgumentError, "invalid category" unless @categories.include?(category)
 
-      doc_id = SecureRandom.uuid
+      doc_id ||= SecureRandom.uuid
       @caching_store.add_document(doc_id, category, filter(features))
     end
 
