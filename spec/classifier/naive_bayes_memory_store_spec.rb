@@ -5,11 +5,11 @@ RSpec.describe Classifier::NaiveBayesMemoryStore do
   let(:monkey_store) { Classifier::NaiveBayesMemoryStore.new }
 
   before do
-    monkey_store.add_document(:sports, %w{A great game})
-    monkey_store.add_document(:not_sports, %w{The election was over})
-    monkey_store.add_document(:sports, %w{Very clean match})
-    monkey_store.add_document(:sports, %w{A clean but forgettable game})
-    monkey_store.add_document(:not_sports, %w{It was a close election})
+    monkey_store.add_document(1, :sports, %w{A great game})
+    monkey_store.add_document(2, :not_sports, %w{The election was over})
+    monkey_store.add_document(3, :sports, %w{Very clean match})
+    monkey_store.add_document(4, :sports, %w{A clean but forgettable game})
+    monkey_store.add_document(5, :not_sports, %w{It was a close election})
   end
 
   describe "#count_documents" do

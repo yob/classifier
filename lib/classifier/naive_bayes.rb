@@ -1,4 +1,5 @@
 require 'bigdecimal'
+require 'securerandom'
 require 'classifier/result'
 require 'classifier/naive_bayes_memory_store'
 require 'classifier/store_cache'
@@ -16,7 +17,8 @@ module Classifier
     def train(category, *features)
       raise ArgumentError, "invalid category" unless @categories.include?(category)
 
-      @caching_store.add_document(category, filter(features))
+      doc_id = SecureRandom.uuid
+      @caching_store.add_document(doc_id, category, filter(features))
     end
 
     def classify(*candidate_features)

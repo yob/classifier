@@ -1,6 +1,5 @@
 require 'bigdecimal'
 require 'classifier/result'
-require 'securerandom'
 
 module Classifier
   class NaiveBayesSequelStore
@@ -10,8 +9,7 @@ module Classifier
       @table_name = table_name
     end
 
-    def add_document(category, features)
-      doc_id = SecureRandom.uuid
+    def add_document(doc_id, category, features)
       features.each do |feature|
         @db[@table_name].insert(doc_id: doc_id, category: category.to_s, feature: feature.to_s)
       end

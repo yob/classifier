@@ -9,8 +9,8 @@ module Classifier
       reset_cache
     end
 
-    def add_document(category, features)
-      @store.add_document(category, features)
+    def add_document(doc_id, category, features)
+      @store.add_document(doc_id, category, features)
       reset_cache
     end
 

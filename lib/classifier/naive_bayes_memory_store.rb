@@ -13,7 +13,7 @@ module Classifier
       @count_documents = BigDecimal.new(0)
     end
 
-    def add_document(category, features)
+    def add_document(doc_id, category, features)
       @count_documents += 1
       @documents_in_category[category] += 1
       @category_features[category] ||= Hash.new(0)
