@@ -5,10 +5,17 @@ module Classifier
     def initialize(probabilities)
       @scores = probabilities
       @category = calc_winning_category
+      @runner_up = calc_runner_up
     end
 
     def inspect
-      "<Classifier::Result:#{object_id} category: #{category} scores: {#{rounded_scores}}>"
+      "<Classifier::Result:#{object_id} category: #{category} ratio: #{ratio.to_s('F')} scores: {#{rounded_scores}}>"
+    end
+
+    def ratio
+      winning_score = @scores[@category]
+      runner_up_score = @scores[@runner_up]
+      (winning_score / runner_up_score).round(10)
     end
 
     private
@@ -24,6 +31,12 @@ module Classifier
       @scores.to_a.sort_by { |cat, score|
         score
       }.last.first
+    end
+
+    def calc_runner_up
+      @scores.to_a.sort_by { |cat, score|
+        score
+      }[-2].first
     end
 
   end

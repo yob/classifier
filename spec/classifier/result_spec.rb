@@ -22,10 +22,16 @@ RSpec.describe Classifier::Result do
     end
   end
 
+  describe "#ratio" do
+    it "returns the number of times the runner up score must be multiplied to equal the winning score" do
+      expect(result.ratio).to eq(BigDecimal.new("2.5"))
+    end
+  end
+
   describe "#inspect" do
     it "returns the correct string" do
       expect(result.inspect).to match(
-        /\A<Classifier::Result:\d+ category: catone scores: {catone: 0.5, cattwo: 0.2}>\Z/
+        /\A<Classifier::Result:\d+ category: catone ratio: 2.5 scores: {catone: 0.5, cattwo: 0.2}>\Z/
       )
     end
   end
