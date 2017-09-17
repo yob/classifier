@@ -18,7 +18,11 @@ module Classifier
       raise ArgumentError, "invalid category" unless @categories.include?(category)
 
       doc_id ||= SecureRandom.uuid
-      @caching_store.add_document(doc_id, category, filter(features))
+      @caching_store.add_document(
+        doc_id.to_s,
+        category.to_s,
+        filter(features)
+      )
     end
 
     def classify(*candidate_features)

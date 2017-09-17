@@ -20,9 +20,6 @@ module Classifier
     end
 
     def add_document(doc_id, category, features)
-      doc_id = doc_id.to_s
-      category = category.to_s
-
       @records.delete_if { |record|
         record.doc_id == doc_id
       }
