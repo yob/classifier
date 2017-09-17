@@ -12,11 +12,29 @@ Basic naive bayes classification:
     require 'classifier'
 
     classifier = Classifier::NaiveBayes.new(categories: ["spam", "ham"])
-    classifier.train("spam", "cheap", "viagra")
-    classifier.train("ham", "cheap", "fruit")
+    classifier.train(category: "spam", features: ["cheap", "viagra"])
+    classifier.train(category: "ham", features: ["cheap", "fruit"])
     puts classifier.classify("fruit").inspect
 
-To test the performance of a classifier, first build a CSV data file like this:
+### Retraining
+
+An optional `doc_id` argument can be provided to the train method. On the
+second and subsequent times a `doc_id` is provided, the existing data for that
+document is replaced.
+
+This allows for workflows where a human might re-classify documents over time.
+
+    classifier = Classifier::NaiveBayes.new(categories: ["spam", "ham"])
+    classifier.train(doc_id: "1", category: "spam", features: ["fruit", "vegetables"])
+    classifier.train(doc_id: "2", category: "spam", features: ["cheap", "viagra"])
+    classifier.train(doc_id: "3", category: "ham", features: ["cheap", "fruit"])
+    classifier.train(doc_id: "1", category: "ham", features: ["fruit", "vegetables"])
+    puts classifier.classify("fruit").inspect
+
+### Testing Classifier Accuracy
+
+To test the performance of a classifier, first build a CSV data file with human
+classified features like this:
 
     category1,feature1,feature2
     category2,feature1,feature3
@@ -28,6 +46,60 @@ Then run the test harness:
 To run multiple files through the test harness:
 
     find . -name "input*.csv" | xargs -L1 ruby -I lib bin/classify-nb
+
+### Custom Persistence
+
+By default, classifier data is stored in memory and will be lost when the ruby
+process ends. That's probably fine for experimenting, but to use a classifier
+in a real-world situation you'll likely want to store the data somewhere persistent
+like a database or file.
+
+    my_store = MyCustomStore.new
+    classifier = Classifier::NaiveBayes.new(store: my_store, categories: ["spam", "ham"])
+    classifier.train(category: "spam", features: ["cheap", "viagra"])
+    classifier.train(category: "ham", features: ["cheap", "fruit"])
+    puts classifier.classify("fruit").inspect
+
+A store object MUST implement the following contract.
+
+    # Stores a new document. The return value is ignored.
+    add_document(doc_id, category, features)
+
+    # Return an BigDecimal that indicates the number of times 'feature' occured
+    # in documents classified in 'category'
+    count_feature_in_category(category, feature)
+
+    # Return an BigDecimal that indicates the total number of features in documents
+    # classified in 'category'
+    count_features_in_category(category)
+
+    # Return a BigDecimal that inidicates the number of unique features seen in
+    # any document from all categories
+    count_uniq_features
+
+    # Return a BigDecimal indicating the number of documents that have been
+    # classified in 'category'
+    count_documents_in_category(category)
+
+    # Return a BigDecimal indicating the number of documents that have been
+    # classified in any category
+    count_documents
+
+A sample store that persists to a database using the `sequel` gem is also available:
+
+    require 'classifier'
+    require 'classifier/naive_bayes_sequel_store'
+
+    db = Sequel.connect(ENV["DATABASE_URL"])
+    db_store = Classifier::NaiveBayesSequelStore.new(db, :naive_bayes_table)
+    classifier = Classifier::NaiveBayes.new(store: db_store, categories: ["spam", "ham"])
+    classifier.train(category: "spam", features: ["cheap", "viagra"])
+    classifier.train(category: "ham", features: ["cheap", "fruit"])
+    puts classifier.classify("fruit").inspect
+
+The behaviour of your custom store must be accurate, or the classifier will produce
+inaccurate results. It's recommended that you write tests for the store that compare
+it's behaviour to the reference in-memory store: `Classifier::NaiveBayesMemoryStore`.
 
 ## Specs
 
